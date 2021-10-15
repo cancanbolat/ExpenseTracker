@@ -15,7 +15,7 @@ namespace Expense.IntegrationTests
     public class ApiTests : IClassFixture<WebApplicationFactory<Startup>>
     {
         private readonly HttpClient _httpClient;
-        private string _url = "http://localhost:5000/api/v1/";
+        private string _url = "http://localhost:5001/api/v1/";
 
         private CreateRecordRequest _record;
         private API.DTO.CreateCategoryDto _category;
