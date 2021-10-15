@@ -30,7 +30,7 @@ There is a 'Makefile' for OS X and Linux:
 
 ## App URLs
 
-- Swagger: `http://localhost:5000/swagger/index.html`
+- Swagger: `http://localhost:5001/swagger/index.html`
 - Angular: `http://localhost:4200`
 - Health Checks: `http://localhost:5001/health`
 - Health Checks UI: `http://localhost:5001/health-ui#/healthchecks`
