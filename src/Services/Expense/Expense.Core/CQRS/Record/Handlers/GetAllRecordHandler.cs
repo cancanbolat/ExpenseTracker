@@ -39,17 +39,6 @@ namespace Expense.Core.CQRS.Record.Handlers
                     record.Category.Type = _categoryRepository.GetByIdAsync(record.Category.Id).Result.Type;
                 }
 
-                int currentPage = 1, pageSize = 5;
-
-                for (int i = 1; i < records.Count; i++)
-                {
-                    int count = 1;
-
-                    records.Skip((currentPage - 1) * pageSize).Take(pageSize);
-
-                    currentPage++;
-                }
-
                 response.Value = LazyMapper.Mapper.Map<List<RecordDto>>(records);
                 response.Message = $"Count: {records.Count} \n Total Amount: {records.Sum(x => x.Amount)}";
             }
