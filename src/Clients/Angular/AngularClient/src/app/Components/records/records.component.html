@@ -1,0 +1,98 @@
+<div class="container mt-4">
+    <!-- Add Record. Open Modal -->
+    <button class="btn btn-outline-secondary" (click)="open(contentModel)" id="addRecordButton">Add Record</button>
+    <!-- Categories Start -->
+    <hr>
+    <button class="btn btn-outline-primary" type="button" id="allRecordsButton" (click)="getRecords()">
+        All
+    </button>
+    <button *ngFor="let cat of categories" class="btn btn-outline-secondary m-1" type="button"
+        id="category-{{cat.name}}" (click)="getRecordsByCategory(cat.name)">
+        {{cat.name}}
+    </button>
+    <!-- Records Table Start-->
+    <div class="mt-3">
+        <table class="table">
+            <thead class="thead-light rounded-1">
+                <tr>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let record of records | slice: (page-1) * pageSize : page * pageSize" id="recordsTr">
+                    <td id="recordTitleTd">{{record.title}}</td>
+                    <td>
+                        <p *ngIf="record.category.type == 'expense'" id="expense">
+                            {{record.category.type}}
+                        </p>
+                        <p *ngIf="record.category.type == 'income'" id="income">
+                            {{record.category.type}}
+                        </p>
+                    </td>
+                    <td>{{record.amount}} ₺</td>
+                    <td>{{record.createdAt | date:'longDate'}}</td>
+                    <td>
+                        <button class="btn btn-danger" type="button" id="deleteButton"
+                            (click)="deleteRecord(record.id)">X</button>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-between">
+            <ngb-pagination [(page)]="page" [pageSize]="pageSize" [collectionSize]='records.length'>
+            </ngb-pagination>
+        </div>
+
+    </div>
+    <!-- 
+    <hr class="m-2">
+    <button class="btn btn-danger" type="button" id="deleteAllButton" (click)="deleteAll()">
+        Delete All
+    </button> -->
+</div>
+<!-- Add Record Modal -->
+<ng-template #contentModel let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add Record</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <label>
+                    Title
+                </label>
+                <input class="form-control" name="title" type="text" [(ngModel)]="record.title" id="titleInput" />
+            </div>
+            <div class="form-group">
+                <label>
+                    Amount
+                </label>
+                <input class="form-control" name="amount" type="number" [(ngModel)]="record.amount" id="amountInput" />
+            </div>
+            <div class="form-group">
+                <label>
+                    Category
+                </label>
+                <select class="form-control" name="categoryId" type="text" [(ngModel)]="record.categoryId"
+                    id="categoryIdSelect">
+                    <option value="" disabled>Select Category</option>
+                    <option *ngFor="let category of categories" value="{{category.id}}">{{category.name}} /
+                        <b>{{category.type}}</b>
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-success" type="button" (click)="addRecord(); modal.close();"
+                    id="saveRecordButton">
+                    Save
+                </button>
+            </div>
+        </form>
+    </div>
+</ng-template>

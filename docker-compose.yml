@@ -1,0 +1,18 @@
+version: "3.4"
+
+services:
+  expensetrackerdb:
+    image: mongo
+  expense.api:
+    image: expenseapi_image
+    build:
+      context: .
+      dockerfile: src\Services\Expense\Expense.Api\Dockerfile
+  expense.angular:
+    image: expenseangular_image
+    build:
+      context: src/Clients/Angular/AngularClient
+      dockerfile: ./Dockerfile
+
+volumes:
+  expensetrackerdb_volume:

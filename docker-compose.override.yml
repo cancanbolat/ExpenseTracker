@@ -1,0 +1,29 @@
+version: "3.4"
+
+services:
+  expensetrackerdb:
+    container_name: expensetrackerdb
+    ports:
+      - 27017:27017
+    volumes:
+      - expensetrackerdb_volume:/data/db
+  expense.api:
+    container_name: expense.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - MongoDatabaseSettings:ConnectionString=mongodb://ExpenseTrackerDb:27017
+    ports:
+      - 5001:80
+    depends_on:
+      - expensetrackerdb
+      - healthchecks
+  expense.angular:
+    container_name: expense.client
+    ports:
+      - 4200:80
+    depends_on:
+      - expense.api
+  healthchecks:
+    image: xabarilcoding/healthchecksui
+    ports:
+      - 5000:80
